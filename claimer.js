@@ -39,7 +39,7 @@ function cacheRewards() {
                 // ...headers,
                 actions: [
                     {
-                        account: 'eosio',
+                        account: 'enumivo',
                         name: 'claimrewards',
                         authorization: [{
                             actor: producerName,
@@ -64,8 +64,8 @@ function cacheRewards() {
 function getGlobal() {
     return new Promise((resolve, reject) => {
         eos.getTableRows({
-            "scope": "eosio",
-            "code": "eosio",
+            "scope": "enumivo",
+            "code": "enumivo",
             "table": "global",
             "json": true
         }).then(res => {
@@ -80,8 +80,8 @@ function getGlobal() {
 function getProducer(name) {
     return new Promise((resolve, reject) => {
         eos.getTableRows({
-            "scope": "eosio",
-            "code": "eosio",
+            "scope": "enumivo",
+            "code": "enumivo",
             "table": "producers",
             "lower_bound": name,
             "limit": 1,
