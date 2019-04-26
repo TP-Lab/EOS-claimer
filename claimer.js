@@ -27,10 +27,10 @@ function cacheRewards() {
                 vpay = 0;
             }
             let next_claim_time = 1 * new Date(producer.last_claim_time) + 24 * 60 * 60 * 1000;
+            console.log("current rewards block pay " + bpay + " vote pay " + vpay + " next claim time " + next_claim_time);
             if (next_claim_time > Date.now()) {
                 return 0;
             }
-            console.log("current rewards block pay " + bpay + " vote pay " + vpay);
             return bpay + vpay;
         }, errs => {
             console.error(errs);
