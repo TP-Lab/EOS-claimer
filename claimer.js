@@ -30,11 +30,11 @@ function cacheRewards() {
             if (next_claim_time > Date.now()) {
                 return 0;
             }
+            console.log("current rewards block pay " + bpay + " vote pay " + vpay);
             return bpay + vpay;
         }, errs => {
             console.error(errs);
         }).then(rewards => {
-            console.log("current rewards:", rewards);
             if (rewards > 0) {
                 eos.transaction({
                     // ...headers,
