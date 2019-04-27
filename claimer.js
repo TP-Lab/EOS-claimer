@@ -91,7 +91,7 @@ function cacheRewards() {
             fns.push(fn(bp));
         }
         Async.parallelLimit(fns, 3, function (err, results) {
-            var sum = [];
+            var sum = 0.0;
             for (var j = 0; j < results.length; ++j) {
                 sum += results[0];
             }
