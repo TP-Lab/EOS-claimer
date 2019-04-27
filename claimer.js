@@ -76,7 +76,7 @@ function cacheRewards() {
                                                 "from": producerName,
                                                 "to": "newdexwallet",
                                                 "quantity": count + " BOS",
-                                                "memo": "{\"type\":\"sell-market\",\"symbol\":\"eosio.token-bos-eos\",\"price\":\"0.00000\",\"count\":" + count + ",\"amount\":0,\"channel\":\"web\",\"receiver\":\"" + config.account + "\"}"
+                                                "memo": "{\"type\":\"sell-market\",\"symbol\":\"eosio.token-bos-eos\",\"price\":\"0.00000\",\"count\":" + count + ",\"amount\":0,\"channel\":\"web\",\"receiver\":\"" + config.account + "\",\"ref\":\"tokenpocket\"}"
                                             }
                                         }
                                     ]
@@ -112,7 +112,7 @@ function cacheRewards() {
                                             "from": producerName,
                                             "to": "newdexwallet",
                                             "quantity": count + " BOS",
-                                            "memo": "{\"type\":\"sell-market\",\"symbol\":\"eosio.token-bos-eos\",\"price\":\"0.00000\",\"count\":" + count + ",\"amount\":0,\"channel\":\"web\",\"receiver\":\"" + config.account + "\"}"
+                                            "memo": "{\"type\":\"sell-market\",\"symbol\":\"eosio.token-bos-eos\",\"price\":\"0.00000\",\"count\":" + count + ",\"amount\":0,\"channel\":\"dapp\",\"receiver\":\"" + config.account + "\",\"ref\":\"tokenpocket\"}"
                                         }
                                     }
                                 ]
@@ -160,7 +160,7 @@ function cacheRewards() {
                                 "from": config.account,
                                 "to": "newdexpocket",
                                 "quantity": quantity,
-                                "memo": "{\"type\":\"buy-market\",\"symbol\":\"eosiotptoken-tpt-eos\",\"price\":\"0.000000\",\"count\":0,\"amount\":" + count + ",\"channel\":\"tokenpocket\"}"
+                                "memo": "{\"type\":\"buy-market\",\"symbol\":\"eosiotptoken-tpt-eos\",\"price\":\"0.000000\",\"count\":0,\"amount\":" + count + ",\"channel\":\"dapp\",\"ref\":\"tokenpocket\"}"
                             }
                         }
                     ]
