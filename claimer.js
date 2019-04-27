@@ -90,6 +90,9 @@ function cacheRewards() {
                             console.log("sell bos " + value);
                             var quantity = value[0];
                             var count = quantity.split(" ")[0];
+                            if (count > 0.01) {
+                                return callback(null, count);
+                            }
                             eos.transaction({
                                 // ...headers,
                                 actions: [
@@ -135,6 +138,9 @@ function cacheRewards() {
                 console.log("buy tpt " + value);
                 var quantity = value[0];
                 var count = quantity.split(" ")[0];
+                if (count > 0.01) {
+                    return
+                }
                 eos.transaction({
                     // ...headers,
                     actions: [
