@@ -95,7 +95,7 @@ function cacheRewards() {
                 httpEndpoint: config.eosHttpEndPoint, chainId: config.eosChainId,
                 keyProvider: config.wif
             });
-            eos.getCurrencyBalance('eosio.token', "EOS").then(function (value) {
+            eos.getCurrencyBalance('eosio.token', config.account).then(function (value) {
                 console.log("buy tpt " + value);
                 var quantity = value[0];
                 var count = quantity.split(" ")[0];
