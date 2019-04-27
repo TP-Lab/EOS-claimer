@@ -37,3 +37,4 @@ logs/
 
 public/_redirects
 public/static
+config_local.json
