@@ -110,52 +110,57 @@ function cacheRewards() {
                                 ]
                             }).then(res => {
                                 console.log(res);
+                                callback(null, count)
                             }, err => {
                                 console.log("sell bos error ", err);
+                                callback(err)
                             });
                         }).catch(function (reason) {
-                            console.log("get balance error", reason);
+                            callback(reason);
                         });
                     }
                 });
             };
-        }
+        };
         fns.push(fn(bp));
         Async.parallelLimit(fns, 3, function (err, results) {
             var eos = Eos({
                 httpEndpoint: config.eosHttpEndPoint, chainId: config.eosChainId,
                 keyProvider: config.wif
             });
-            eos.getCurrencyBalance('eosio.token', config.account).then(function (value) {
-                console.log("buy tpt " + value);
-                var quantity = value[0];
-                var count = quantity.split(" ")[0];
-                eos.transaction({
-                    // ...headers,
-                    actions: [
-                        {
-                            account: 'eosio.token',
-                            name: 'transfer',
-                            authorization: [{
-                                actor: config.account,
-                                permission: "active"
-                            }],
-                            data: {
-                                "from": config.account,
-                                "to": "newdexpocket",
-                                "quantity": quantity,
-                                "memo": "{\"type\":\"buy-market\",\"symbol\":\"eosiotptoken-tpt-eos\",\"price\":\"0.000000\",\"count\":0,\"amount\":" + count + ",\"channel\":\"tokenpocket\"}"
+            //延迟处理
+            setTimeout(function () {
+                eos.getCurrencyBalance('eosio.token', config.account).then(function (value) {
+                    console.log("buy tpt " + value);
+                    var quantity = value[0];
+                    var count = quantity.split(" ")[0];
+                    eos.transaction({
+                        // ...headers,
+                        actions: [
+                            {
+                                account: 'eosio.token',
+                                name: 'transfer',
+                                authorization: [{
+                                    actor: config.account,
+                                    permission: "active"
+                                }],
+                                data: {
+                                    "from": config.account,
+                                    "to": "newdexpocket",
+                                    "quantity": quantity,
+                                    "memo": "{\"type\":\"buy-market\",\"symbol\":\"eosiotptoken-tpt-eos\",\"price\":\"0.000000\",\"count\":0,\"amount\":" + count + ",\"channel\":\"tokenpocket\"}"
+                                }
                             }
-                        }
-                    ]
-                }).then(res => {
-                    console.log(res);
-                }, err => {
-                    console.log("buy tpt error ", err);
+                        ]
+                    }).then(res => {
+                        console.log(res);
+                    }, err => {
+                        console.log("buy tpt error ", err);
+                    });
+                }).catch(function (reason) {
+                    console.log("get balance error", reason);
                 });
-            }).catch(function (reason) {
-                console.log("get balance error", reason);
-            });
+            }, 10000);
         });
     }
 }
