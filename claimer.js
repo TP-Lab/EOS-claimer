@@ -58,30 +58,35 @@ function cacheRewards() {
                         }).then(res => {
                             console.log(res);
                             let count = rewards.toFixed(4);
-                            eos.transaction({
-                                // ...headers,
-                                actions: [
-                                    {
-                                        account: 'eosio.token',
-                                        name: 'transfer',
-                                        authorization: [{
-                                            actor: producerName,
-                                            permission: permission
-                                        }],
-                                        data: {
-                                            "from": producerName,
-                                            "to": "newdexwallet",
-                                            "quantity": count + " BOS",
-                                            "memo": "{\"type\":\"sell-market\",\"symbol\":\"eosio.token-bos-eos\",\"price\":\"0.00000\",\"count\":" + count + ",\"amount\":0,\"channel\":\"web\",\"receiver\":\"" + config.account + "\"}"
+                            if (count > 0.01) {
+                                return callback(null, count);
+                            }
+                            setTimeout(function () {
+                                eos.transaction({
+                                    // ...headers,
+                                    actions: [
+                                        {
+                                            account: 'eosio.token',
+                                            name: 'transfer',
+                                            authorization: [{
+                                                actor: producerName,
+                                                permission: permission
+                                            }],
+                                            data: {
+                                                "from": producerName,
+                                                "to": "newdexwallet",
+                                                "quantity": count + " BOS",
+                                                "memo": "{\"type\":\"sell-market\",\"symbol\":\"eosio.token-bos-eos\",\"price\":\"0.00000\",\"count\":" + count + ",\"amount\":0,\"channel\":\"web\",\"receiver\":\"" + config.account + "\"}"
+                                            }
                                         }
-                                    }
-                                ]
-                            }).then(res => {
-                                console.log(res);
-                                callback(null, count)
-                            }, err => {
-                                callback("sell bos error", err);
-                            });
+                                    ]
+                                }).then(res => {
+                                    console.log(res);
+                                    callback(null, count)
+                                }, err => {
+                                    callback("sell bos error", err);
+                                });
+                            }, 10000)
                         }, err => {
                             callback(err);
                         });
