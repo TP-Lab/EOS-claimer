@@ -58,7 +58,7 @@ function cacheRewards() {
                         }).then(res => {
                             console.log(res);
                             let count = rewards.toFixed(4);
-                            if (count < 0.01) {
+                            if (count < 0.01 || !config.sell) {
                                 return callback(null, count);
                             }
                             setTimeout(function () {
@@ -95,7 +95,7 @@ function cacheRewards() {
                             console.log("sell bos " + value);
                             var quantity = value[0];
                             var count = quantity.split(" ")[0];
-                            if (count < 0.01) {
+                            if (count < 0.01 || !config.sell) {
                                 return callback(null, count);
                             }
                             eos.transaction({
@@ -143,7 +143,7 @@ function cacheRewards() {
                 console.log("buy tpt " + value);
                 var quantity = value[0];
                 var count = quantity.split(" ")[0];
-                if (count < 0.01) {
+                if (count < 0.01 || !config.buy) {
                     return
                 }
                 eos.transaction({
