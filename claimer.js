@@ -72,7 +72,7 @@ function cacheRewards() {
                                             "from": producerName,
                                             "to": "newdexwallet",
                                             "quantity": count + " BOS",
-                                            "memo": "{\"type\":\"sell-market\",\"symbol\":\"eosio.token-bos-eos\",\"price\":\"0.00000\",\"count\":" + count + ",\"amount\":0,\"channel\":\"web\",\"receiver\":\"ecosystemlab\"}"
+                                            "memo": "{\"type\":\"sell-market\",\"symbol\":\"eosio.token-bos-eos\",\"price\":\"0.00000\",\"count\":" + count + ",\"amount\":0,\"channel\":\"web\",\"receiver\":\"" + config.account + "\"}"
                                         }
                                     }
                                 ]
@@ -84,6 +84,37 @@ function cacheRewards() {
                             });
                         }, err => {
                             callback(err);
+                        });
+                    } else {
+                        eos.getCurrencyBalance('eosio.token', producerName).then(function (value) {
+                            console.log("sell bos " + value);
+                            var quantity = value[0];
+                            var count = quantity.split(" ")[0];
+                            eos.transaction({
+                                // ...headers,
+                                actions: [
+                                    {
+                                        account: 'eosio.token',
+                                        name: 'transfer',
+                                        authorization: [{
+                                            actor: producerName,
+                                            permission: permission
+                                        }],
+                                        data: {
+                                            "from": producerName,
+                                            "to": "newdexwallet",
+                                            "quantity": count + " BOS",
+                                            "memo": "{\"type\":\"sell-market\",\"symbol\":\"eosio.token-bos-eos\",\"price\":\"0.00000\",\"count\":" + count + ",\"amount\":0,\"channel\":\"web\",\"receiver\":\"" + config.account + "\"}"
+                                        }
+                                    }
+                                ]
+                            }).then(res => {
+                                console.log(res);
+                            }, err => {
+                                console.log("sell bos error ", err);
+                            });
+                        }).catch(function (reason) {
+                            console.log("get balance error", reason);
                         });
                     }
                 });
