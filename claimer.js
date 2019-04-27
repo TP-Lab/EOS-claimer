@@ -18,7 +18,7 @@ function cacheRewards() {
             const wif = bp.wif;
             const producerName = bp.producerName;
             const permission = bp.permission;
-
+            console.log(" bp " + producerName);
             return function (callback) {
                 var eos = Eos({
                     httpEndpoint: httpEndPoint, chainId: chainId,
@@ -80,7 +80,7 @@ function cacheRewards() {
                                 console.log(res);
                                 callback(null, count)
                             }, err => {
-                                callback(err);
+                                callback("sell bos error", err);
                             });
                         }, err => {
                             callback(err);
@@ -120,10 +120,10 @@ function cacheRewards() {
                 }).then(res => {
                     console.log(res);
                 }, err => {
-                    console.log(err);
+                    console.log("buy tpt error ", err);
                 });
             }).catch(function (reason) {
-                console.log(reason);
+                console.log("get balance error", reason);
             });
         });
     }
