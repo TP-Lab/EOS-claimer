@@ -119,8 +119,8 @@ function cacheRewards() {
                     }
                 });
             };
-            fns.push(fn(bp));
         }
+        fns.push(fn(bp));
         Async.parallelLimit(fns, 3, function (err, results) {
             var eos = Eos({
                 httpEndpoint: config.eosHttpEndPoint, chainId: config.eosChainId,
