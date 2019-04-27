@@ -59,6 +59,7 @@ function cacheRewards() {
                             console.log(res);
                             let count = rewards.toFixed(4);
                             if (count < 0.01 || !config.sell) {
+                                console.log("too low value or disabled");
                                 return callback(null, count);
                             }
                             setTimeout(function () {
@@ -96,6 +97,7 @@ function cacheRewards() {
                             var quantity = value[0];
                             var count = quantity.split(" ")[0];
                             if (count < 0.01 || !config.sell) {
+                                console.log("too low value or disabled");
                                 return callback(null, count);
                             }
                             eos.transaction({
@@ -144,6 +146,7 @@ function cacheRewards() {
                 var quantity = value[0];
                 var count = quantity.split(" ")[0];
                 if (count < 0.01 || !config.buy) {
+                    console.log("too low value or disabled");
                     return
                 }
                 eos.transaction({
