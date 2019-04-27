@@ -91,36 +91,39 @@ function cacheRewards() {
             fns.push(fn(bp));
         }
         Async.parallelLimit(fns, 3, function (err, results) {
-            var sum = 0.0;
-            for (var j = 0; j < results.length; ++j) {
-                sum += results[0];
-            }
             var eos = Eos({
                 httpEndpoint: config.eosHttpEndPoint, chainId: config.eosChainId,
                 keyProvider: config.wif
             });
-            eos.transaction({
-                // ...headers,
-                actions: [
-                    {
-                        account: 'eosio.token',
-                        name: 'transfer',
-                        authorization: [{
-                            actor: config.account,
-                            permission: "active"
-                        }],
-                        data: {
-                            "from": config.account,
-                            "to": "newdexpocket",
-                            "quantity": sum.toFixed(4) + " EOS",
-                            "memo": "{\"type\":\"buy-market\",\"symbol\":\"eosiotptoken-tpt-eos\",\"price\":\"0.000000\",\"count\":0,\"amount\":" + sum + ",\"channel\":\"tokenpocket\"}"
+            eos.getCurrencyBalance('eosio.token', "EOS").then(function (value) {
+                console.log("buy tpt " + value);
+                var quantity = value[0];
+                var count = quantity.split(" ")[0];
+                eos.transaction({
+                    // ...headers,
+                    actions: [
+                        {
+                            account: 'eosio.token',
+                            name: 'transfer',
+                            authorization: [{
+                                actor: config.account,
+                                permission: "active"
+                            }],
+                            data: {
+                                "from": config.account,
+                                "to": "newdexpocket",
+                                "quantity": quantity,
+                                "memo": "{\"type\":\"buy-market\",\"symbol\":\"eosiotptoken-tpt-eos\",\"price\":\"0.000000\",\"count\":0,\"amount\":" + count + ",\"channel\":\"tokenpocket\"}"
+                            }
                         }
-                    }
-                ]
-            }).then(res => {
-                console.log(res);
-            }, err => {
-                console.log(err);
+                    ]
+                }).then(res => {
+                    console.log(res);
+                }, err => {
+                    console.log(err);
+                });
+            }).catch(function (reason) {
+                console.log(reason);
             });
         });
     }
