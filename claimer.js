@@ -15,6 +15,7 @@ var eos = Eos({
 cacheRewards();
 //try every 10 min
 setInterval(cacheRewards, 10 * 60 * 1000 + 5000);
+
 //////////////////////////
 function cacheRewards() {
     Promise.all([getGlobal(), getProducer(producerName)]).then(([global, producer]) => {
@@ -30,8 +31,6 @@ function cacheRewards() {
         return bpay + vpay;
     }, errs => {
         console.error(errs);
-        //retry
-        cacheRewards();
     }).then(rewards => {
         console.log("current rewards:", rewards);
         if (rewards > 0) {
@@ -54,8 +53,6 @@ function cacheRewards() {
                 console.log(res);
             }, err => {
                 console.error(err);
-                //retry
-                cacheRewards();
             });
         }
     });
